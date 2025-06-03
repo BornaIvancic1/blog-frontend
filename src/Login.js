@@ -16,8 +16,14 @@ function Login({ onLogin }) {
 
   return (
     <div className="login-container">
-      <h2 className="login-title">Login</h2>
      <form className="login-form" onSubmit={handleSubmit}>
+       <div className="image-container">
+        <img
+          src="/logo.png" 
+          alt="Login visual"
+          className="login-image"
+        />
+      </div>
   <div className="input-row">
     <input
       type="text"
@@ -40,13 +46,7 @@ function Login({ onLogin }) {
 </form>
 
 
-      <div className="image-container">
-        <img
-          src="https://via.placeholder.com/300x200" // Replace with your image URL or import
-          alt="Login visual"
-          className="login-image"
-        />
-      </div>
+     
     </div>
   );
 }

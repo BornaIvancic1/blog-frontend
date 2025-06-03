@@ -1,4 +1,13 @@
+@import "tailwindcss";
+
+:root {
+  --color-icon: #e4462f;       /* Vibrant red-orange */
+  --color-blogswift: #0b1b29;  /* Very dark navy */
+  --color-beige: #f4f0e9;      /* Off-white/beige */
+  --color-peach: #fbd6c4;      /* Light peach tone */
+}
 body {
+  background: radial-gradient(circle, var(--color-beige), var(--color-blogswift)  );
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
