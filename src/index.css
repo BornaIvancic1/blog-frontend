@@ -2,7 +2,11 @@
 
 :root {
   --color-icon: #e4462f;       /* Vibrant red-orange */
+    --color-icon-less: #e4472f70;       /* Vibrant red-orange */
+
   --color-blogswift: #0b1b29;  /* Very dark navy */
+    --color-blogswift-less: #0b1b299f;  /* Very dark navy */
+
   --color-beige: #f4f0e9;      /* Off-white/beige */
   --color-peach: #fbd6c4;      /* Light peach tone */
 }
@@ -19,4 +23,8 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+.material-icons {
+  font-size: 26px;
+  vertical-align:sub;
 }
