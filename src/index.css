@@ -9,6 +9,7 @@
 
   --color-beige: #f4f0e9;      /* Off-white/beige */
   --color-peach: #fbd6c4;      /* Light peach tone */
+    --color-peach-less: #fbd6c491;
 }
 body {
   background: radial-gradient(circle, var(--color-beige), var(--color-blogswift)  );

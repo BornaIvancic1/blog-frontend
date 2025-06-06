@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Login from './Login';
+import Register from './Register'; // Import Register component
 import './App.css';
 
 function App() {
@@ -7,8 +8,13 @@ function App() {
   const [page, setPage] = useState('home');
   const [selectedPost, setSelectedPost] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  const [showRegister, setShowRegister] = useState(false); // Add state to toggle
 
   const handleLogin = (username) => {
+    setUser(username);
+  };
+
+  const handleRegister = (username) => {
     setUser(username);
   };
 
@@ -26,11 +32,21 @@ function App() {
     setShowModal(false);
     setTimeout(() => {
       setSelectedPost(null);
-    }, 300); // Match the CSS animation duration
+    }, 300);
   };
 
   if (!user) {
-    return <Login onLogin={handleLogin} />;
+    return showRegister ? (
+      <Register
+        onRegister={handleRegister}
+        switchToLogin={() => setShowRegister(false)}
+      />
+    ) : (
+      <Login
+        onLogin={handleLogin}
+        switchToRegister={() => setShowRegister(true)} // Pass function to toggle to register
+      />
+    );
   }
 
   return (
@@ -51,7 +67,9 @@ function App() {
                 >
                   <h2>{selectedPost.title}</h2>
                   <p>{selectedPost.content}</p>
-                  <p><strong>{selectedPost.author}</strong> — {selectedPost.date}</p>
+                  <p>
+                    <strong>{selectedPost.author}</strong> — {selectedPost.date}
+                  </p>
                   <button onClick={handleCloseModal}>Close</button>
                 </div>
               </div>
@@ -74,18 +92,25 @@ function App() {
           </>
         )}
 
-       {page === 'me' && (
-  <div className="profile-page">
-<h2 style={{ marginTop: '10px' }}>Your Profile</h2>
-    <div className="profile-info ">
-      <p><span className="font-semibold text-white/80">Username:</span> {user}</p>
-      <p><span className="font-semibold text-white/80">Email:</span> {user.toLowerCase()}@example.com</p>
-      <p><span className="font-semibold text-white/80">Joined:</span> June 2, 2025</p>
-      <p><span className="font-semibold text-white/80">Status:</span> Active</p>
-    </div>
-  </div>
-)}
-
+        {page === 'me' && (
+          <div className="profile-page">
+            <h2 style={{ marginBottom: '20px' }}>Your Profile</h2>
+            <div className="profile-info ">
+              <p className="profile-text">
+                <span>Username:</span> {user}
+              </p>
+              <p className="profile-text">
+                <span className="profile-text">Email:</span> {user.toLowerCase()}@example.com
+              </p>
+              <p className="profile-text">
+                <span className="profile-text">Joined:</span> June 2, 2025
+              </p>
+              <p className="profile-text">
+                <span className="profile-text">Status:</span> Active
+              </p>
+            </div>
+          </div>
+        )}
       </main>
 
       <nav className="bottom-nav">

@@ -90,7 +90,6 @@ transition: font-size 0.2s ease-in-out, text-shadow 0.5s ease-in-out; /* smooth 
 
 }
 
-/* Scrollable 4x4 grid */
 .grid-container {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -99,7 +98,7 @@ transition: font-size 0.2s ease-in-out, text-shadow 0.5s ease-in-out; /* smooth 
   overflow-y: auto;
   padding: 10px;
   margin-top: 20px;
-  background: linear-gradient( var(--color-blogswift), var(--color-icon-less));
+  background: linear-gradient( var(--color-blogswift-less), var(--color-icon-less));
   border-radius: 30px;
   color: #0b1b29;
     box-shadow: 0 0 15px var(--color-icon);
@@ -108,7 +107,7 @@ transition: font-size 0.2s ease-in-out, text-shadow 0.5s ease-in-out; /* smooth 
 
 /* Individual grid item */
 .grid-item {
-  background-color: var(--color-peach);
+  background-color: var(--color-peach-less);
   border-radius: 30px;
   padding: 16px;
   display: flex;
@@ -238,4 +237,7 @@ transition: font-size 0.2s ease-in-out, text-shadow 0.5s ease-in-out; /* smooth 
   margin: 0 auto;
   height: 200px;
   width: 300px;
+}
+profile-text{
+  font-size: 26px !important;
 }
