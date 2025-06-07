@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import './Login.css'; // Styling stays the same
+import './Login.css';
 
 function Login({ onLogin, switchToRegister }) {
-  const [username, setUsername] = useState('');
+  const [userName, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -16,15 +16,17 @@ function Login({ onLogin, switchToRegister }) {
       const res = await fetch('http://localhost:3000/api/users/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username: username, password }),
+        body: JSON.stringify({userName: userName, password:password }),
       });
 
       const data = await res.json();
 
+      // FIX 1: Use data.message for error (matches backend)
       if (!res.ok) {
-        setError(data.error || 'Invalid credentials');
+        setError(data.message || 'Invalid credentials');
       } else {
-        onLogin(data.user.username || username); // use returned username or input
+        // FIX 2: Just use the username, since backend only returns token
+        onLogin(userName);
       }
     } catch (err) {
       setError('Network error');
@@ -50,7 +52,7 @@ function Login({ onLogin, switchToRegister }) {
           <input
             type="text"
             placeholder="Username"
-            value={username}
+            value={userName}
             onChange={(e) => setUsername(e.target.value)}
             required
           />

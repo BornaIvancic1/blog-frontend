@@ -1,30 +1,35 @@
 import React, { useState } from 'react';
+import './Login.css';
 
 function Register({ onRegister, switchToLogin }) {
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [userName, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
+    setSuccess(false);
 
     try {
-      const res = await fetch('http://localhost:5000/api/users/register', {
+      const res = await fetch('http://localhost:3000/api/users/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, email, password }),
+        body: JSON.stringify({ firstName, lastName, userName, password }),
       });
 
       const data = await res.json();
 
       if (!res.ok) {
-        setError(data.error || 'Registration failed');
+        setError(data.message || 'Registration failed');
       } else {
-        onRegister(username);
+        setSuccess(true);
+        if (onRegister) onRegister(userName);
       }
     } catch (err) {
       setError('Network error');
@@ -34,37 +39,69 @@ function Register({ onRegister, switchToLogin }) {
   };
 
   return (
-    <div className="register-container">
-      <h2>Register</h2>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      <form onSubmit={handleSubmit}>
-        <input
-          placeholder="Username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          required
-        />
-        <input
-          placeholder="Email"
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-        <input
-          placeholder="Password"
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-        <button type="submit" disabled={loading}>
-          {loading ? 'Registering...' : 'Register'}
-        </button>
+    <div className="login-container">
+      <form className="login-form" onSubmit={handleSubmit}>
+        <div className="image-container">
+          <img
+            src="/logo.png"
+            alt="Register visual"
+            className="login-image"
+          />
+        </div>
+
+        {error && <p style={{ color: 'red' }}>{error}</p>}
+        {success && <p style={{ color: 'green' }}>Registration successful! You can now log in.</p>}
+
+        <div className="input-row">
+          <input
+            type="text"
+            placeholder="First Name"
+            value={firstName}
+            onChange={(e) => setFirstName(e.target.value)}
+            required
+          />
+          <input
+            type="text"
+            placeholder="Last Name"
+            value={lastName}
+            onChange={(e) => setLastName(e.target.value)}
+            required
+          />
+          <input
+            type="text"
+            placeholder="Username"
+            value={userName}
+            onChange={(e) => setUsername(e.target.value)}
+            required
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+        </div>
+
+        <div className="button-row">
+          <button type="submit" disabled={loading}>
+            {loading ? 'Registering...' : 'Register'}
+          </button>
+        </div>
       </form>
-      <p>
+
+      <p style={{ marginTop: 10 }}>
         Already have an account?{' '}
-        <button onClick={switchToLogin} style={{ color: 'blue', background: 'none', border: 'none', cursor: 'pointer' }}>
+        <button
+          onClick={switchToLogin}
+          style={{
+            color: 'blue',
+            background: 'none',
+            border: 'none',
+            cursor: 'pointer',
+            textDecoration: 'underline',
+          }}
+        >
           Log in here
         </button>
       </p>

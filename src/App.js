@@ -120,6 +120,15 @@ function App() {
         <button onClick={() => setPage('me')}>
           <span className="material-icons">person</span> Me
         </button>
+        <button
+      onClick={() => {
+      localStorage.removeItem('token'); 
+        setPage('login'); 
+  }}
+>
+  <span className="material-icons">logout</span> Logout
+</button>
+
       </nav>
     </div>
   );
