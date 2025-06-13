@@ -51,12 +51,33 @@ html, body {
 .main-content {
   padding: 20px;
 }
-.main-content h2{
+.main-content h2 {
   text-align: center;
   font-size: 26px;
   font-weight: 700;
-  color: var(--color-blogswift);
-  text-shadow: 0 0 15px var(--color-blogswift);
+  color: var(--color-peach);
+  text-shadow: 0 0 25px black;
+  position: relative;
+}
+
+.main-content h2::after {
+  content: "";
+  display: block;
+  margin: 5px auto 0 auto;
+  width: 400px; 
+  height: 5px;
+  background: linear-gradient(90deg, var(--color-peach), #ffb24781, var(--color-peach));
+  border-radius: 30px;
+  border: 1px solid #ffb24781;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.456);
+}
+
+.main-content h3{
+ text-align: center;
+  font-size: 26px;
+  font-weight: 700;
+  color: black;
+  text-shadow: 0 0 25px rgba(0, 0, 0, 0.377);
 }
 .bottom-nav {
   position: fixed;
@@ -70,7 +91,8 @@ html, body {
   align-items: center;
   border-top-left-radius: 100px;
     border-top-right-radius: 100px;
-
+border: solid 1px rgba(0, 0, 0, 0.507);
+box-shadow: 0 0   50px rgba(0, 0, 0, 0.643);
 }
 
 .bottom-nav button {
@@ -95,6 +117,7 @@ transition: font-size 0.2s ease-in-out, text-shadow 0.5s ease-in-out; /* smooth 
   grid-template-columns: repeat(4, 1fr);
   gap: 12px;
   max-height: 800px;
+
   overflow-y: auto;
   padding: 10px;
   margin-top: 20px;
@@ -102,7 +125,24 @@ transition: font-size 0.2s ease-in-out, text-shadow 0.5s ease-in-out; /* smooth 
   border-radius: 30px;
   color: #0b1b29;
     box-shadow: 0 0 15px var(--color-icon);
+    border: 2px solid var(--color-icon);
 
+}
+.grid-container::-webkit-scrollbar {
+  width: 15px;
+  height: 10px; /* only needed for horizontal scrollbars */
+}
+.grid-container::-webkit-scrollbar-track {
+  background: #f1f1f100;
+  border-radius: 100%;
+}
+.grid-container::-webkit-scrollbar-thumb {
+  background: var(--color-icon);
+  box-shadow: 0  0 50px var(--color-icon);
+  border-radius: 30px;
+}
+.grid-container::-webkit-scrollbar-thumb:hover {
+  background: var(--color-icon-less);
 }
 
 /* Individual grid item */
@@ -116,8 +156,15 @@ transition: font-size 0.2s ease-in-out, text-shadow 0.5s ease-in-out; /* smooth 
   justify-content: space-between;
   text-align: left;
   box-shadow: 0 0 15px var(--color-icon);
+  border: 3px solid var(--color-icon);
+  transition: 0.3s padding ease-in-out, 0.6s box-shadow ease-in-out, 0.7s background-color ease-in-out;
 }
+.grid-item:hover{
+    padding: 30px;
+  box-shadow: 0 0 30px var(--color-icon);
+  background-color: var(--color-peach);
 
+}
 /* Grid content */
 .grid-title {
   font-size: 1.1rem;
@@ -147,62 +194,6 @@ transition: font-size 0.2s ease-in-out, text-shadow 0.5s ease-in-out; /* smooth 
 .grid-date {
   font-style: italic;
 }
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(11, 27, 41, 0.95); /* translucent dark */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
-}
-
-.modal-content {
-  background-color: #fbd6c4;
-  color: #0b1b29;
-  padding: 24px;
-  border-radius: 30px;
-  width: 90%;
-  max-width: 600px;
-  box-shadow: 0 0 25px var(--color-icon);
-  text-align: left;
-  position: relative;
-}
-
-.modal-content button {
-  margin-top: 20px;
-  padding: 10px 18px;
-  background-color: #e4462f;
-  color: white;
-  font-weight: bold;
-  border: none;
-  border-radius: 30px;
-  cursor: pointer;
-  float: right;
-  transition: box-shadow 0.3s ease-in-out;
-}
-
-.modal-content button:hover{
-  box-shadow: 0 0 10px red;
-}
-/* Overlay fades */
-.modal-overlay.fade-in {
-  animation: fadeIn 0.3s forwards;
-}
-.modal-overlay.fade-out {
-  animation: fadeOut 0.3s forwards;
-}
-
-/* Modal content slides */
-.modal-content.slide-in {
-  animation: slideIn 0.3s forwards;
-}
-.modal-content.slide-out {
-  animation: slideOut 0.3s forwards;
-}
 
 @keyframes fadeIn {
   from { opacity: 0; }
@@ -225,19 +216,188 @@ transition: font-size 0.2s ease-in-out, text-shadow 0.5s ease-in-out; /* smooth 
 .profile-page {
   margin: 60px;
   padding: 20px;
-  color: white;
+  color: rgba(0, 0, 0, 0.706);
   text-align: center;
+  font-weight: 700;
 }
 
 .profile-info {
-  background-color: rgba(255, 255, 255, 0.05);
+  background:linear-gradient(var( --color-peach-less),var(--color-peach));
   padding: 20px;
   border-radius: 30px;
   text-align: left;
+margin-top: 50px !important;
   margin: 0 auto;
   height: 200px;
-  width: 300px;
+  font-size: larger;
+  width: 350px;
+  box-shadow: 0 0 30px var(--color-icon-less);
+  border: 2px solid var(--color-icon-less);
 }
-profile-text{
-  font-size: 26px !important;
+
+.profile-value{
+  margin-left: 5px;
+  color: rgb(139, 0, 0);
+  text-shadow: 0 0 10px rgba(139, 0, 0, 0.206);
+}
+.create-post-btn{
+  background: linear-gradient(rgb(108, 189, 255),rgb(156, 246, 254));
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  border-radius: 30px;
+  box-shadow: 0 0 30px rgb(156, 246, 254);
+          font-size: larger;
+            font-weight: 700;
+            color: rgb(0, 0, 61);
+            transition: 0.2s padding ease-in-out, 0.8s background ease-in-out;
+}
+.create-post-btn:hover{
+padding: 10px;
+  background: linear-gradient(rgb(156, 246, 254),rgb(108, 189, 255));
+  box-shadow: 0 0 30px rgb(108, 189, 255);
+
+}
+/* Modal Overlay */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(30, 41, 59, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  transition: background 0.3s;
+  backdrop-filter: blur(2px);
+}
+
+/* Modal Content Card */
+.modal-content {
+  background: linear-gradient(135deg, var(--color-peach), var(--color-peach-less), #fff 90%);
+  border-radius: 30px;
+  box-shadow: 0 0 30px var(--color-icon), 0 8px 32px rgba(30, 41, 59, 0.18);
+  padding: 2.2rem 2rem 2rem 2rem;
+  max-width: 440px;
+  width: 92vw;
+  position: relative;
+  animation: modal-pop 0.25s cubic-bezier(.4,1.4,.7,1) both;
+  color: #0b1b29;
+  border: 3px solid var(--color-icon);
+  font-family: inherit;
+  text-align: left;
+}
+
+/* Modal Title */
+.modal-content h3 {
+  margin-top: 0;
+  margin-bottom: 1.2rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-align: center;
+  /* Use a deep, rich color for contrast */
+  color: #0b1b29; /* Deep navy, matches your grid-title */
+  text-shadow: 0 2px 18px var(--color-icon-less), 0 1px 0 #fff;
+  letter-spacing: 0.5px;
+}
+
+
+/* Primary action button (e.g., Create, Save) */
+.modal-content .btn-primary {
+  background: linear-gradient(90deg, var(--color-peach), var(--color-peach-less));
+  color: #0b1b29;
+  border: none;
+  border-radius: 30px;
+  padding: 0.6em 1.5em;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 0 18px var(--color-peach-less);
+  margin-right: 0.7em;
+  transition: background 0.2s, box-shadow 0.2s, padding 0.2s;
+}
+.modal-content .btn-primary:hover,
+.modal-content .btn-primary:focus {
+  background: linear-gradient(90deg, var(--color-peach-less), var(--color-peach));
+  box-shadow: 0 0 30px var(--color-peach);
+  padding-left: 2em;
+  padding-right: 2em;
+}
+
+/* Secondary action button (e.g., Cancel, Close) */
+.modal-content .btn-secondary {
+  background: #fff;
+  color: var(--color-icon);
+  border: 2px solid var(--color-icon);
+  border-radius: 30px;
+  padding: 0.6em 1.5em;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 0 8px var(--color-icon-less);
+  transition: background 0.2s, color 0.2s, border 0.2s;
+}
+.modal-content .btn-secondary:hover,
+.modal-content .btn-secondary:focus {
+  background: var(--color-icon-less);
+  color: #fff;
+  border-color: var(--color-icon-less);
+}
+
+
+/* Modal Inputs */
+.modal-content input,
+.modal-content textarea {
+  width: 100%;
+  padding: 0.7em;
+  margin-bottom: 1em;
+  border: 2px solid var(--color-icon);
+  border-radius: 16px;
+  font-size: 1rem;
+  background: #f8fafc;
+  color: #0b1b29;
+  transition: border 0.18s, box-shadow 0.18s;
+  box-shadow: 0 0 8px var(--color-icon-less);
+}
+.modal-content input:focus,
+.modal-content textarea:focus {
+  border-color: var(--color-peach);
+  outline: none;
+  box-shadow: 0 0 16px var(--color-peach);
+}
+
+/* Animation */
+@keyframes modal-pop {
+  0% {
+    transform: translateY(40px) scale(0.97);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .modal-content {
+    padding: 1.2rem 0.7rem 1.2rem 0.7rem;
+    max-width: 97vw;
+  }
+}
+.modal-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1em; /* space between buttons */
+  margin-top: 1.2em;
+}
+@media (max-width: 500px) {
+  .modal-buttons {
+    flex-direction: column;
+    gap: 0.7em;
+  }
 }

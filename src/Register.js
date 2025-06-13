@@ -94,13 +94,7 @@ function Register({ onRegister, switchToLogin }) {
         Already have an account?{' '}
         <button
           onClick={switchToLogin}
-          style={{
-            color: 'blue',
-            background: 'none',
-            border: 'none',
-            cursor: 'pointer',
-            textDecoration: 'underline',
-          }}
+          className='registerLogin'
         >
           Log in here
         </button>

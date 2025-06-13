@@ -24,8 +24,12 @@
     box-shadow: 0  0 15px var(--color-peach);
     font-size: 20px !important;
     font-weight: 500;
+    transition: 0.3s padding ease-in-out;
 }
+.login-form input:hover{
+    padding: 15px;
 
+}
 .login-form button {
   padding: 10px 20px;
   font-size: 26px !important;
@@ -68,4 +72,26 @@
   cursor: pointer;
   border-radius: 60px;
   background-color: var( --color-icon);
+    transition: 0.3s box-shadow ease-in-out, 0.3s font-size ease-in-out;
+
+}
+.button-row button:hover{
+   box-shadow: 0 0 40px var( --color-icon);
+  font-size: 30px !important;
+}
+.registerLogin{
+  margin: 10px;
+   padding: 10px 20px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer !important;
+  border-radius: 60px;
+  background-color: var( --color-icon-less);
+  box-shadow: 0 0 20px var( --color-icon-less);
+  transition: 0.3s box-shadow ease-in-out, 0.3s font-size ease-in-out;
+}
+.registerLogin:hover{
+  box-shadow: 0 0 20px var( --color-icon);
+  font-size: 20px;
+
 }

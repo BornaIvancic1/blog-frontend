@@ -26,8 +26,7 @@ function Login({ onLogin, switchToRegister }) {
         setError(data.message || 'Invalid credentials');
       } else {
         // FIX 2: Just use the username, since backend only returns token
-        onLogin(userName);
-      }
+      onLogin(data.user.userName, data.user.firstname, data.user.lastname);      }
     } catch (err) {
       setError('Network error');
     }
@@ -76,13 +75,7 @@ function Login({ onLogin, switchToRegister }) {
         Don't have an account?{' '}
         <button
           onClick={switchToRegister}
-          style={{
-            color: 'blue',
-            background: 'none',
-            border: 'none',
-            cursor: 'pointer',
-            textDecoration: 'underline',
-          }}
+         className='registerLogin'
         >
           Register here
         </button>

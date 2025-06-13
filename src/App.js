@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Login from './Login';
-import Register from './Register'; // Import Register component
+import Me from './Me';
+import Register from './Register';
 import './App.css';
 
 function App() {
@@ -8,23 +9,37 @@ function App() {
   const [page, setPage] = useState('home');
   const [selectedPost, setSelectedPost] = useState(null);
   const [showModal, setShowModal] = useState(false);
-  const [showRegister, setShowRegister] = useState(false); // Add state to toggle
+  const [showCreateModal, setShowCreateModal] = useState(false);
+  const [showRegister, setShowRegister] = useState(false);
+  const [posts, setPosts] = useState([]);
+  const [loadingPosts, setLoadingPosts] = useState(false);
+  const [errorPosts, setErrorPosts] = useState(null);
 
-  const handleLogin = (username) => {
-    setUser(username);
+  useEffect(() => {
+    if (!user) return;
+    setLoadingPosts(true);
+    fetch('http://localhost:3000/api/posts')
+      .then(res => res.json())
+      .then(data => {
+        setPosts(data.posts || []);
+        setLoadingPosts(false);
+      })
+      .catch(err => {
+        setErrorPosts('Failed to load posts');
+        setLoadingPosts(false);
+      });
+  }, [user]);
+
+  const handleLogin = (userName, firstName, lastName) => {
+    setUser({ userName, firstName, lastName });
   };
 
-  const handleRegister = (username) => {
-    setUser(username);
+  const handleRegister = (userName, firstName, lastName) => {
+    setUser({ userName, firstName, lastName });
   };
 
-  const openPost = (index) => {
-    setSelectedPost({
-      title: `Post Title ${index + 1}`,
-      content: `Full content of post ${index + 1}. Lorem ipsum dolor sit amet, consectetur adipiscing elit...`,
-      author: `User${index + 1}`,
-      date: '2025-06-02',
-    });
+  const openPost = (post) => {
+    setSelectedPost(post);
     setShowModal(true);
   };
 
@@ -33,6 +48,37 @@ function App() {
     setTimeout(() => {
       setSelectedPost(null);
     }, 300);
+  };
+
+  // --- Create Post Modal Form ---
+  const [newTitle, setNewTitle] = useState('');
+  const [newContent, setNewContent] = useState('');
+  const [createError, setCreateError] = useState(null);
+  const [creating, setCreating] = useState(false);
+
+  const handleCreatePost = async (e) => {
+    e.preventDefault();
+    setCreating(true);
+    setCreateError(null);
+    try {
+      const res = await fetch('http://localhost:3000/api/posts', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        },
+        body: JSON.stringify({ title: newTitle, content: newContent })
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message || 'Failed to create post');
+      setPosts([data, ...posts]);
+      setShowCreateModal(false);
+      setNewTitle('');
+      setNewContent('');
+    } catch (err) {
+      setCreateError(err.message);
+    }
+    setCreating(false);
   };
 
   if (!user) {
@@ -44,18 +90,72 @@ function App() {
     ) : (
       <Login
         onLogin={handleLogin}
-        switchToRegister={() => setShowRegister(true)} // Pass function to toggle to register
+        switchToRegister={() => setShowRegister(true)}
       />
     );
   }
 
   return (
     <div className="app">
+      {page === 'home' && (
+        <button
+          className="create-post-btn"
+          style={{
+            position: 'absolute',
+            top: 20,
+            right: 40,
+            zIndex: 10
+          }}
+          onClick={() => setShowCreateModal(true)}
+        >
+         <span className="material-icons" >add_circle</span> Create Post
+        </button>
+      )}
+
       <main className="main-content">
         {page === 'home' && (
           <>
-            <h2>Welcome Home, {user}!</h2>
+            <h2><span className="material-icons">waving_hand</span> Welcome Home, {user.userName}!</h2>
 
+            {/* Create Post Modal */}
+            {showCreateModal && (
+              <div className="modal-overlay fade-in" onClick={() => setShowCreateModal(false)}>
+                <div
+                  className="modal-content slide-in"
+                  onClick={e => e.stopPropagation()}
+                >
+                  <h3>Create New Post</h3>
+                  <form onSubmit={handleCreatePost}>
+                    {createError && <p style={{ color: 'red' }}>{createError}</p>}
+                    <input
+                      type="text"
+                      placeholder="Post Title"
+                      value={newTitle}
+                      onChange={e => setNewTitle(e.target.value)}
+                      required
+                    />
+                    <textarea
+                      placeholder="Post Content"
+                      value={newContent}
+                      onChange={e => setNewContent(e.target.value)}
+                      required
+                      rows={5}
+                    />
+                              <div className="modal-buttons">
+              <button type="submit" className="btn-primary" disabled={creating}>
+                {creating ? 'Creating...' : 'Create'}
+              </button>
+              <button type="button" className="btn-secondary" onClick={() => setShowCreateModal(false)}>
+                Cancel
+              </button>
+            </div>
+
+                  </form>
+                </div>
+              </div>
+            )}
+
+            {/* View Post Modal */}
             {selectedPost && (
               <div
                 className={`modal-overlay ${showModal ? 'fade-in' : 'fade-out'}`}
@@ -65,26 +165,29 @@ function App() {
                   className={`modal-content ${showModal ? 'slide-in' : 'slide-out'}`}
                   onClick={(e) => e.stopPropagation()}
                 >
-                  <h2>{selectedPost.title}</h2>
+                  <h3>{selectedPost.title}</h3>
                   <p>{selectedPost.content}</p>
                   <p>
-                    <strong>{selectedPost.author}</strong> — {selectedPost.date}
+                    <strong>{selectedPost.author?.userName || 'Unknown'}</strong> — {selectedPost.createdAt ? new Date(selectedPost.createdAt).toLocaleDateString() : ''}
                   </p>
                   <button onClick={handleCloseModal}>Close</button>
                 </div>
               </div>
             )}
 
+            {/* Posts Grid */}
             <div className="grid-container">
-              {[...Array(16)].map((_, i) => (
-                <div className="grid-item" key={i} onClick={() => openPost(i)}>
-                  <h3 className="grid-title">Post Title {i + 1}</h3>
+              {loadingPosts && <p>Loading posts...</p>}
+              {errorPosts && <p style={{ color: 'red' }}>{errorPosts}</p>}
+              {posts.map((post) => (
+                <div className="grid-item" key={post._id} onClick={() => openPost(post)}>
+                  <h3 className="grid-title">{post.title}</h3>
                   <p className="grid-content">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque...
+                    {post.content.length > 100 ? post.content.slice(0, 100) + '...' : post.content}
                   </p>
                   <div className="grid-meta">
-                    <span className="grid-author">by User{i + 1}</span>
-                    <span className="grid-date">2025-06-02</span>
+                    <span className="grid-author">by {post.author?.userName || 'Unknown'}</span>
+                    <span className="grid-date">{post.createdAt ? new Date(post.createdAt).toLocaleDateString() : ''}</span>
                   </div>
                 </div>
               ))}
@@ -92,25 +195,7 @@ function App() {
           </>
         )}
 
-        {page === 'me' && (
-          <div className="profile-page">
-            <h2 style={{ marginBottom: '20px' }}>Your Profile</h2>
-            <div className="profile-info ">
-              <p className="profile-text">
-                <span>Username:</span> {user}
-              </p>
-              <p className="profile-text">
-                <span className="profile-text">Email:</span> {user.toLowerCase()}@example.com
-              </p>
-              <p className="profile-text">
-                <span className="profile-text">Joined:</span> June 2, 2025
-              </p>
-              <p className="profile-text">
-                <span className="profile-text">Status:</span> Active
-              </p>
-            </div>
-          </div>
-        )}
+        {page === 'me' && <Me user={user} />}
       </main>
 
       <nav className="bottom-nav">
@@ -121,14 +206,14 @@ function App() {
           <span className="material-icons">person</span> Me
         </button>
         <button
-      onClick={() => {
-      localStorage.removeItem('token'); 
-        setPage('login'); 
-  }}
->
-  <span className="material-icons">logout</span> Logout
-</button>
-
+          onClick={() => {
+            localStorage.removeItem('token');
+            setUser(null);
+            setPage('login');
+          }}
+        >
+          <span className="material-icons">logout</span> Logout
+        </button>
       </nav>
     </div>
   );
