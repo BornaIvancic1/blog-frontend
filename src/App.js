@@ -15,6 +15,13 @@ function App() {
   const [loadingPosts, setLoadingPosts] = useState(false);
   const [errorPosts, setErrorPosts] = useState(null);
 
+  // For create modal
+  const [newTitle, setNewTitle] = useState('');
+  const [newContent, setNewContent] = useState('');
+  const [newTags, setNewTags] = useState('');
+  const [createError, setCreateError] = useState(null);
+  const [creating, setCreating] = useState(false);
+
   useEffect(() => {
     if (!user) return;
     setLoadingPosts(true);
@@ -51,15 +58,29 @@ function App() {
   };
 
   // --- Create Post Modal Form ---
-  const [newTitle, setNewTitle] = useState('');
-  const [newContent, setNewContent] = useState('');
-  const [createError, setCreateError] = useState(null);
-  const [creating, setCreating] = useState(false);
-
   const handleCreatePost = async (e) => {
     e.preventDefault();
-    setCreating(true);
     setCreateError(null);
+
+    // Frontend validation (no minimum length)
+    if (!newTitle.trim() || newTitle.length > 120) {
+      setCreateError('Title must be 1-120 characters.');
+      return;
+    }
+    if (!newContent.trim()) {
+      setCreateError('Content cannot be empty.');
+      return;
+    }
+    const tagsArr = newTags
+      .split(',')
+      .map(tag => tag.trim())
+      .filter(tag => tag);
+    if (tagsArr.length > 5) {
+      setCreateError('Maximum 5 tags allowed.');
+      return;
+    }
+
+    setCreating(true);
     try {
       const res = await fetch('http://localhost:3000/api/posts', {
         method: 'POST',
@@ -67,7 +88,7 @@ function App() {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         },
-        body: JSON.stringify({ title: newTitle, content: newContent })
+        body: JSON.stringify({ title: newTitle, content: newContent, tags: tagsArr })
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || 'Failed to create post');
@@ -75,6 +96,7 @@ function App() {
       setShowCreateModal(false);
       setNewTitle('');
       setNewContent('');
+      setNewTags('');
     } catch (err) {
       setCreateError(err.message);
     }
@@ -126,13 +148,14 @@ function App() {
                 >
                   <h3>Create New Post</h3>
                   <form onSubmit={handleCreatePost}>
-                    {createError && <p style={{ color: 'red' }}>{createError}</p>}
+                    {createError && <p style={{ color: 'red', textAlign: 'center' }}>{createError}</p>}
                     <input
                       type="text"
                       placeholder="Post Title"
                       value={newTitle}
                       onChange={e => setNewTitle(e.target.value)}
                       required
+                      maxLength={120}
                     />
                     <textarea
                       placeholder="Post Content"
@@ -141,15 +164,21 @@ function App() {
                       required
                       rows={5}
                     />
-                              <div className="modal-buttons">
-              <button type="submit" className="btn-primary" disabled={creating}>
-                {creating ? 'Creating...' : 'Create'}
-              </button>
-              <button type="button" className="btn-secondary" onClick={() => setShowCreateModal(false)}>
-                Cancel
-              </button>
-            </div>
-
+                    <input
+                      type="text"
+                      placeholder="Tags (comma separated, max 5)"
+                      value={newTags}
+                      onChange={e => setNewTags(e.target.value)}
+                      maxLength={100}
+                    />
+                    <div className="modal-buttons">
+                      <button type="submit" className="btn-primary" disabled={creating}>
+                        {creating ? 'Creating...' : 'Create'}
+                      </button>
+                      <button type="button" className="btn-secondary" onClick={() => setShowCreateModal(false)}>
+                        Cancel
+                      </button>
+                    </div>
                   </form>
                 </div>
               </div>
@@ -167,10 +196,17 @@ function App() {
                 >
                   <h3>{selectedPost.title}</h3>
                   <p>{selectedPost.content}</p>
+                  {selectedPost.tags && selectedPost.tags.length > 0 && (
+                    <div style={{ margin: '10px 0' }}>
+                      <strong>Tags:</strong> {selectedPost.tags.join(', ')}
+                    </div>
+                  )}
                   <p>
                     <strong>{selectedPost.author?.userName || 'Unknown'}</strong> — {selectedPost.createdAt ? new Date(selectedPost.createdAt).toLocaleDateString() : ''}
                   </p>
-                  <button onClick={handleCloseModal}>Close</button>
+                  <div className="modal-buttons">
+                    <button className="btn-secondary" onClick={handleCloseModal}>Close</button>
+                  </div>
                 </div>
               </div>
             )}
@@ -189,6 +225,11 @@ function App() {
                     <span className="grid-author">by {post.author?.userName || 'Unknown'}</span>
                     <span className="grid-date">{post.createdAt ? new Date(post.createdAt).toLocaleDateString() : ''}</span>
                   </div>
+                  {post.tags && post.tags.length > 0 && (
+                    <div style={{ marginTop: 6, fontSize: '0.9em', color: '#1976d2' }}>
+                      Tags: {post.tags.join(', ')}
+                    </div>
+                  )}
                 </div>
               ))}
             </div>

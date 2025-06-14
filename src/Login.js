@@ -25,8 +25,8 @@ function Login({ onLogin, switchToRegister }) {
       if (!res.ok) {
         setError(data.message || 'Invalid credentials');
       } else {
-        // FIX 2: Just use the username, since backend only returns token
-      onLogin(data.user.userName, data.user.firstname, data.user.lastname);      }
+        localStorage.setItem('token', data.token); // <--- Save the token!
+    onLogin(data.user.userName, data.user.firstname, data.user.lastname);    }
     } catch (err) {
       setError('Network error');
     }
