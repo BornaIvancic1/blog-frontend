@@ -266,23 +266,24 @@ padding: 10px;
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(30, 41, 59, 0.55);
+  background: rgba(30, 41, 59, 0.65);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1000;
   transition: background 0.3s;
-  backdrop-filter: blur(2px);
+  backdrop-filter: blur(5px);
 }
 
 /* Modal Content Card */
 .modal-content {
+  margin: 15px;
   background: linear-gradient(135deg, var(--color-peach), var(--color-peach-less), #fff 90%);
   border-radius: 30px;
   box-shadow: 0 0 30px var(--color-icon), 0 8px 32px rgba(30, 41, 59, 0.18);
   padding: 2.2rem 2rem 2rem 2rem;
-  max-width: 440px;
-  width: 92vw;
+  max-width: 840px;
+  width: 300vw;
   position: relative;
   animation: modal-pop 0.25s cubic-bezier(.4,1.4,.7,1) both;
   color: #0b1b29;

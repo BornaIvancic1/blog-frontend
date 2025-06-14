@@ -195,9 +195,9 @@ function App() {
                   onClick={(e) => e.stopPropagation()}
                 >
                   <h3>{selectedPost.title}</h3>
-                  <p>{selectedPost.content}</p>
+                  <p style={{ marginBottom: '10px' }}>{selectedPost.content}</p>
                   {selectedPost.tags && selectedPost.tags.length > 0 && (
-                    <div style={{ margin: '10px 0' }}>
+                    <div style={{ margin: '10px' }}>
                       <strong>Tags:</strong> {selectedPost.tags.join(', ')}
                     </div>
                   )}
