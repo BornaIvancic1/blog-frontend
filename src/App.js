@@ -15,6 +15,7 @@ function App() {
   const [loadingPosts, setLoadingPosts] = useState(false);
   const [errorPosts, setErrorPosts] = useState(null);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+const [showChat, setShowChat] = useState(false);
 
   // For create modal
   const [newTitle, setNewTitle] = useState('');
@@ -73,10 +74,12 @@ const confirmDeletePost = async () => {
     setPosts(posts.filter(p => p._id !== selectedPost._id));
     setShowModal(false);
     setShowDeleteConfirm(false);
+    setSelectedPost(null); 
   } catch (err) {
     alert(err.message);
   }
 };
+
 const handleUpdatePost = async (e) => {
   e.preventDefault();
   // Validation as needed
@@ -188,7 +191,29 @@ const handleUpdatePost = async (e) => {
          <span className="material-icons" >add_circle</span> Create Post
         </button>
       )}
-
+{page === 'home' && (
+        <button
+          className="talk-ai-btn"
+          style={{
+            position: 'absolute',
+            top: 20,
+            left: 40,
+            zIndex: 10
+          }}
+          onClick={() => setShowChat(true)}
+        >
+  <span className="material-icons">auto_awesome</span> Chat with AI
+        </button>
+      )}
+      {showChat && (
+      <div className="modal-overlay" onClick={() => setShowChat(false)}>
+        <div className="modal-content" onClick={e => e.stopPropagation()}>
+          <h3>Chat with AI</h3>
+          {/* Your AI chat UI goes here */}
+          <button className="btn-secondary" onClick={() => setShowChat(false)}>Close</button>
+        </div>
+      </div>
+    )}
       <main className="main-content">
         {page === 'home' && (
           <>

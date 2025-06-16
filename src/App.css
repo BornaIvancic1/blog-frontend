@@ -259,6 +259,28 @@ padding: 10px;
   box-shadow: 0 0 30px rgb(108, 189, 255);
 
 }
+.talk-ai-btn {
+  background: linear-gradient(90deg, #a084ee, #6f73d2); /* Purple to blue */
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  border-radius: 30px;
+  box-shadow: 0 0 30px #a084ee;
+  font-size: larger;
+  font-weight: 700;
+  color: #0b1b29;
+  transition: 0.2s padding ease-in-out, 0.8s background ease-in-out;
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+}
+.talk-ai-btn:hover {
+  padding: 10px;
+  background: linear-gradient(90deg, #6f73d2, #a084ee);
+  box-shadow: 0 0 30px #6f73d2;
+}
+
 /* Modal Overlay */
 .modal-overlay {
   position: fixed;
