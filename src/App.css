@@ -348,6 +348,27 @@ padding: 10px;
   border-color: var(--color-icon-less);
 }
 
+/* Danger action button (e.g., Delete) */
+.modal-content .btn-danger {
+  background: linear-gradient(90deg, var(--color-danger), var(--color-danger-less));
+  color: #fff;
+  border: none;
+  border-radius: 30px;
+  padding: 0.6em 1.5em;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 0 18px var(--color-danger-less);
+  margin-right: 0.7em;
+  transition: background 0.2s, box-shadow 0.2s, padding 0.2s;
+}
+.modal-content .btn-danger:hover,
+.modal-content .btn-danger:focus {
+  background: linear-gradient(90deg, var(--color-danger-less), var(--color-danger));
+  box-shadow: 0 0 30px var(--color-danger);
+  padding-left: 2em;
+  padding-right: 2em;
+}
 
 /* Modal Inputs */
 .modal-content input,

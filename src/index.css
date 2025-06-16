@@ -6,7 +6,8 @@
 
   --color-blogswift: #0b1b29;  /* Very dark navy */
     --color-blogswift-less: #0b1b299f;  /* Very dark navy */
-
+--color-danger: #e53935;       /* Strong red */
+  --color-danger-less: #ff867c;  /* Softer red/pink */
   --color-beige: #f4f0e9;      /* Off-white/beige */
   --color-peach: #fbd6c4;      /* Light peach tone */
     --color-peach-less: #fbd6c491;

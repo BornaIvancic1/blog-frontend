@@ -14,6 +14,7 @@ function App() {
   const [posts, setPosts] = useState([]);
   const [loadingPosts, setLoadingPosts] = useState(false);
   const [errorPosts, setErrorPosts] = useState(null);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
   // For create modal
   const [newTitle, setNewTitle] = useState('');
@@ -21,6 +22,12 @@ function App() {
   const [newTags, setNewTags] = useState('');
   const [createError, setCreateError] = useState(null);
   const [creating, setCreating] = useState(false);
+
+
+      const [isEditing, setIsEditing] = useState(false);
+    const [editTitle, setEditTitle] = useState('');
+    const [editContent, setEditContent] = useState('');
+    const [editTags, setEditTags] = useState('');
 
   useEffect(() => {
     if (!user) return;
@@ -40,10 +47,58 @@ function App() {
   const handleLogin = (userName, firstName, lastName) => {
     setUser({ userName, firstName, lastName });
   };
+const handleEditPost = () => {
+  setEditTitle(selectedPost.title);
+  setEditContent(selectedPost.content);
+  setEditTags(selectedPost.tags.join(', '));
+  setIsEditing(true);
+};
+
+
 
   const handleRegister = (userName, firstName, lastName) => {
     setUser({ userName, firstName, lastName });
   };
+const handleDeletePost = () => setShowDeleteConfirm(true);
+
+const confirmDeletePost = async () => {
+  try {
+    const res = await fetch(`http://localhost:3000/api/posts/${selectedPost._id}`, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      }
+    });
+    if (!res.ok) throw new Error('Failed to delete post');
+    setPosts(posts.filter(p => p._id !== selectedPost._id));
+    setShowModal(false);
+    setShowDeleteConfirm(false);
+  } catch (err) {
+    alert(err.message);
+  }
+};
+const handleUpdatePost = async (e) => {
+  e.preventDefault();
+  // Validation as needed
+  const tagsArr = editTags.split(',').map(tag => tag.trim()).filter(tag => tag);
+  try {
+    const res = await fetch(`http://localhost:3000/api/posts/${selectedPost._id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      },
+      body: JSON.stringify({ title: editTitle, content: editContent, tags: tagsArr })
+    });
+    if (!res.ok) throw new Error('Failed to update post');
+    const updated = await res.json();
+    setPosts(posts.map(p => p._id === updated._id ? updated : p));
+    setIsEditing(false);
+    setShowModal(false);
+  } catch (err) {
+    alert(err.message);
+  }
+};
 
   const openPost = (post) => {
     setSelectedPost(post);
@@ -204,12 +259,63 @@ function App() {
                   <p>
                     <strong>{selectedPost.author?.userName || 'Unknown'}</strong> — {selectedPost.createdAt ? new Date(selectedPost.createdAt).toLocaleDateString() : ''}
                   </p>
-                  <div className="modal-buttons">
-                    <button className="btn-secondary" onClick={handleCloseModal}>Close</button>
-                  </div>
+                 <div className="modal-buttons">
+                {user.userName === selectedPost.author?.userName && (
+                  <>
+                    <button className="btn-primary" onClick={handleEditPost}>Edit</button>
+                    <button className="btn-danger" onClick={handleDeletePost}>Delete</button>
+                  </>
+                )}
+                <button className="btn-secondary" onClick={handleCloseModal}>Close</button>
+        </div>
+
                 </div>
               </div>
             )}
+        {showDeleteConfirm && (
+          <div className="modal-overlay" onClick={() => setShowDeleteConfirm(false)}>
+            <div className="modal-content" onClick={e => e.stopPropagation()}>
+              <h4>Confirm Delete</h4>
+              <p>Are you sure you want to delete this post?</p>
+              <div className="modal-buttons">
+                <button className="btn-danger" onClick={confirmDeletePost}>Delete</button>
+                <button className="btn-secondary" onClick={() => setShowDeleteConfirm(false)}>Cancel</button>
+              </div>
+            </div>
+          </div>
+        )}
+{isEditing && (
+  <div className="modal-overlay" onClick={() => setIsEditing(false)}>
+    <div className="modal-content" onClick={e => e.stopPropagation()}>
+      <h3>Edit Post</h3>
+      <form onSubmit={handleUpdatePost}>
+        <input
+          type="text"
+          value={editTitle}
+          onChange={e => setEditTitle(e.target.value)}
+          maxLength={120}
+          required
+        />
+        <textarea
+          rows={5}
+          value={editContent}
+          onChange={e => setEditContent(e.target.value)}
+          required
+        />
+        <input
+          type="text"
+          placeholder="Tags (comma separated)"
+          value={editTags}
+          onChange={e => setEditTags(e.target.value)}
+        />
+        <div className="modal-buttons">
+          <button type="submit" className="btn-primary">Update</button>
+          <button type="button" className="btn-secondary" onClick={() => setIsEditing(false)}>Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+)}
 
             {/* Posts Grid */}
             <div className="grid-container">
