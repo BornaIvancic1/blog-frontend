@@ -29,6 +29,31 @@ const [showChat, setShowChat] = useState(false);
     const [editTitle, setEditTitle] = useState('');
     const [editContent, setEditContent] = useState('');
     const [editTags, setEditTags] = useState('');
+const [chatInput, setChatInput] = useState('');
+const [chatMessages, setChatMessages] = useState([]);
+const [chatLoading, setChatLoading] = useState(false);
+const [chatError, setChatError] = useState(null);
+
+const handleSendChat = async () => {
+  if (!chatInput.trim()) return;
+  setChatMessages([...chatMessages, { sender: 'user', text: chatInput }]);
+  setChatLoading(true);
+  setChatError(null);
+  try {
+    const res = await fetch('http://localhost:3000/api/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message: chatInput }),
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'AI error');
+    setChatMessages(msgs => [...msgs, { sender: 'ai', text: data.reply }]);
+    setChatInput('');
+  } catch (err) {
+    setChatError(err.message);
+  }
+  setChatLoading(false);
+};
 
   useEffect(() => {
     if (!user) return;
@@ -206,14 +231,33 @@ const handleUpdatePost = async (e) => {
         </button>
       )}
       {showChat && (
-      <div className="modal-overlay" onClick={() => setShowChat(false)}>
-        <div className="modal-content" onClick={e => e.stopPropagation()}>
-          <h3>Chat with AI</h3>
-          {/* Your AI chat UI goes here */}
-          <button className="btn-secondary" onClick={() => setShowChat(false)}>Close</button>
-        </div>
+  <div className="modal-overlay" onClick={() => setShowChat(false)}>
+    <div className="modal-content" onClick={e => e.stopPropagation()}>
+      <h3>Chat with AI</h3>
+      <div style={{ maxHeight: 300, overflowY: 'auto', marginBottom: 10 }}>
+        {chatMessages.map((msg, idx) => (
+          <div key={idx} style={{ textAlign: msg.sender === 'user' ? 'right' : 'left' }}>
+            <span>{msg.text}</span>
+          </div>
+        ))}
+        {chatLoading && <div>AI is typing...</div>}
+        {chatError && <div style={{ color: 'red' }}>{chatError}</div>}
       </div>
-    )}
+      <input
+        type="text"
+        value={chatInput}
+        onChange={e => setChatInput(e.target.value)}
+        onKeyDown={e => e.key === 'Enter' && handleSendChat()}
+        placeholder="Type your message..."
+        style={{ width: '80%' }}
+        disabled={chatLoading}
+      />
+      <button style={{marginLeft:'20px'}} className='btn-primary' onClick={handleSendChat} disabled={chatLoading}>Send</button>
+      <button className="btn-secondary" onClick={() => setShowChat(false)}>Close</button>
+    </div>
+  </div>
+)}
+
       <main className="main-content">
         {page === 'home' && (
           <>
