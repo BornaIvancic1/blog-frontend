@@ -232,14 +232,19 @@ const handleUpdatePost = async (e) => {
       )}
       {showChat && (
   <div className="modal-overlay" onClick={() => setShowChat(false)}>
-    <div className="modal-content" onClick={e => e.stopPropagation()}>
+    <div className="modal-content ai" onClick={e => e.stopPropagation()}>
       <h3>Chat with AI</h3>
-      <div style={{ maxHeight: 300, overflowY: 'auto', marginBottom: 10 }}>
-        {chatMessages.map((msg, idx) => (
-          <div key={idx} style={{ textAlign: msg.sender === 'user' ? 'right' : 'left' }}>
-            <span>{msg.text}</span>
-          </div>
-        ))}
+        <div className='aiDiv' style={{  overflowY: 'auto', marginBottom: 10, display: 'flex', flexDirection: 'column' }}>
+      {chatMessages.map((msg, idx) => (
+        <div
+          key={idx}
+          className={msg.sender === 'user' ? 'userMessage' : 'aiMessage'}
+          style={{ alignSelf: msg.sender === 'user' ? 'flex-end' : 'flex-start' }}
+        >
+          <span>{msg.text}</span>
+        </div>
+      ))}
+
         {chatLoading && <div>AI is typing...</div>}
         {chatError && <div style={{ color: 'red' }}>{chatError}</div>}
       </div>

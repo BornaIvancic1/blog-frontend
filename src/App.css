@@ -445,3 +445,57 @@ padding: 10px;
     gap: 0.7em;
   }
 }
+
+.userMessage {
+background: linear-gradient(90deg, #ffb357, #ffd200);
+  border-radius: 30px;
+  padding: 15px;
+  margin: 10px;
+  width: fit-content;
+  font-weight: 700;
+  align-self: flex-end;
+  text-align: right;
+    box-shadow: 0 0 10px  #ffb357;
+
+}
+
+.aiMessage {
+  background: linear-gradient(90deg, #a084ee, #6f73d2);
+  border-radius: 30px;
+  padding: 15px;
+  margin: 10px;
+  width: fit-content;
+  font-weight: 700;
+  align-self: flex-start;
+  text-align: left;
+  box-shadow: 0 0 10px  #6f73d2;
+}
+.aiDiv::-webkit-scrollbar {
+  width: 10px;
+  border-radius: 30px;
+}
+
+.aiDiv::-webkit-scrollbar-thumb {
+  background: linear-gradient(90deg, #a084ee, #6f73d2);
+  border-radius: 30px;
+}
+
+.aiDiv::-webkit-scrollbar-track {
+  background: #f1f1f100;
+  border-radius: 30px;
+}
+
+/* For Firefox */
+.aiDiv {
+  height: 560px !important;
+  scrollbar-width: thin;
+  scrollbar-color: #a18cd1 #f1f1f100;
+}
+.modal-content.ai{
+  height: 800px;
+}
+.aiDiv, .userMessage, .aiMessage {
+  word-break: break-word;
+  /* or, alternatively: */
+  /* overflow-wrap: anywhere; */
+}
