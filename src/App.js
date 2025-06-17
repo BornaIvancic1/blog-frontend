@@ -24,6 +24,8 @@ const [showChat, setShowChat] = useState(false);
   const [createError, setCreateError] = useState(null);
   const [creating, setCreating] = useState(false);
 
+const [paraphrasingTitle, setParaphrasingTitle] = useState(false);
+const [paraphrasingContent, setParaphrasingContent] = useState(false);
 
       const [isEditing, setIsEditing] = useState(false);
     const [editTitle, setEditTitle] = useState('');
@@ -33,6 +35,40 @@ const [chatInput, setChatInput] = useState('');
 const [chatMessages, setChatMessages] = useState([]);
 const [chatLoading, setChatLoading] = useState(false);
 const [chatError, setChatError] = useState(null);
+
+const handleParaphraseTitle = async () => {
+  setParaphrasingTitle(true);
+  try {
+    const res = await fetch('http://localhost:3000/api/chat/paraphrase', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ text: newTitle, type: 'title' }),
+    });
+    const data = await res.json();
+    if (data.improvedText) setNewTitle(data.improvedText);
+  } catch (err) {
+    // Optionally handle error
+  }
+  setParaphrasingTitle(false);
+};
+
+const handleParaphraseContent = async () => {
+  setParaphrasingContent(true);
+  try {
+    const res = await fetch('http://localhost:3000/api/chat/paraphrase', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ text: newContent, type: 'content' }),
+    });
+    const data = await res.json();
+    if (data.improvedText) setNewContent(data.improvedText);
+  } catch (err) {
+    // Optionally handle error
+  }
+  setParaphrasingContent(false);
+};
+
+
 
 const handleSendChat = async () => {
   if (!chatInput.trim()) return;
@@ -276,39 +312,64 @@ const handleUpdatePost = async (e) => {
                   onClick={e => e.stopPropagation()}
                 >
                   <h3>Create New Post</h3>
-                  <form onSubmit={handleCreatePost}>
-                    {createError && <p style={{ color: 'red', textAlign: 'center' }}>{createError}</p>}
-                    <input
-                      type="text"
-                      placeholder="Post Title"
-                      value={newTitle}
-                      onChange={e => setNewTitle(e.target.value)}
-                      required
-                      maxLength={120}
-                    />
-                    <textarea
-                      placeholder="Post Content"
-                      value={newContent}
-                      onChange={e => setNewContent(e.target.value)}
-                      required
-                      rows={5}
-                    />
-                    <input
-                      type="text"
-                      placeholder="Tags (comma separated, max 5)"
-                      value={newTags}
-                      onChange={e => setNewTags(e.target.value)}
-                      maxLength={100}
-                    />
-                    <div className="modal-buttons">
-                      <button type="submit" className="btn-primary" disabled={creating}>
-                        {creating ? 'Creating...' : 'Create'}
-                      </button>
-                      <button type="button" className="btn-secondary" onClick={() => setShowCreateModal(false)}>
-                        Cancel
-                      </button>
-                    </div>
-                  </form>
+                        <form onSubmit={handleCreatePost}>
+          {createError && <p style={{ color: 'red', textAlign: 'center' }}>{createError}</p>}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <input
+              type="text"
+              placeholder="Post Title"
+              value={newTitle}
+              onChange={e => setNewTitle(e.target.value)}
+              required
+              maxLength={120}
+              style={{ flex: 1 }}
+            />
+            <button
+              type="button"
+              onClick={handleParaphraseTitle}
+              disabled={paraphrasingTitle}
+              className="btn-tertiary talk-ai-btn"
+              title="Paraphrase/Fix Grammar"
+            >
+              <span className="material-icons">auto_awesome</span> {paraphrasingTitle ? '...' : 'Paraphrase Title'}
+            </button>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <textarea
+              placeholder="Post Content"
+              value={newContent}
+              onChange={e => setNewContent(e.target.value)}
+              required
+              rows={5}
+              style={{ flex: 1 }}
+            />
+            <button
+              type="button"
+              onClick={handleParaphraseContent}
+              disabled={paraphrasingContent}
+              className="btn-tertiary talk-ai-btn"
+              title="Paraphrase/Fix Grammar"
+            >
+              <span className="material-icons">auto_awesome</span> {paraphrasingContent ? '...' : 'Paraphrase Content'}
+            </button>
+          </div>
+          <input
+            type="text"
+            placeholder="Tags (comma separated, max 5)"
+            value={newTags}
+            onChange={e => setNewTags(e.target.value)}
+            maxLength={100}
+          />
+          <div className="modal-buttons">
+            <button type="submit" className="btn-primary" disabled={creating}>
+              {creating ? 'Creating...' : 'Create'}
+            </button>
+            <button type="button" className="btn-secondary" onClick={() => setShowCreateModal(false)}>
+              Cancel
+            </button>
+          </div>
+        </form>
+
                 </div>
               </div>
             )}
