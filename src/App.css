@@ -499,3 +499,18 @@ background: linear-gradient(90deg, #ffb357, #ffd200);
   /* or, alternatively: */
   /* overflow-wrap: anywhere; */
 }
+.search-input {
+  display: block;
+  margin: 0 auto;
+  margin-top: 20px;
+  max-width: 300px;
+  text-align: center;
+  padding: 10px;
+  border-radius: 30px;
+  font-size: 1rem;
+  font-weight: 700;
+  color: rgba(0, 0, 0, 0.723);
+background-color: rgba(255, 255, 255, 0.525); 
+box-shadow: 0 0  15px rgba(0, 0, 0, 0.3) inset;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}

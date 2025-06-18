@@ -26,6 +26,7 @@ const [showChat, setShowChat] = useState(false);
 
 const [paraphrasingTitle, setParaphrasingTitle] = useState(false);
 const [paraphrasingContent, setParaphrasingContent] = useState(false);
+const [searchTerm, setSearchTerm] = useState('');
 
       const [isEditing, setIsEditing] = useState(false);
     const [editTitle, setEditTitle] = useState('');
@@ -303,6 +304,16 @@ const handleUpdatePost = async (e) => {
         {page === 'home' && (
           <>
             <h2><span className="material-icons">waving_hand</span> Welcome Home, {user.userName}!</h2>
+<div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+  <input
+  className='search-input'
+    type="text"
+    placeholder="Search posts..."
+    value={searchTerm}
+    onChange={e => setSearchTerm(e.target.value)}
+    style={{ flex: 1, padding: '8px', fontSize: '1em' }}
+  />
+</div>
 
             {/* Create Post Modal */}
             {showCreateModal && (
@@ -453,27 +464,33 @@ const handleUpdatePost = async (e) => {
 )}
 
             {/* Posts Grid */}
-            <div className="grid-container">
-              {loadingPosts && <p>Loading posts...</p>}
-              {errorPosts && <p style={{ color: 'red' }}>{errorPosts}</p>}
-              {posts.map((post) => (
-                <div className="grid-item" key={post._id} onClick={() => openPost(post)}>
-                  <h3 className="grid-title">{post.title}</h3>
-                  <p className="grid-content">
-                    {post.content.length > 100 ? post.content.slice(0, 100) + '...' : post.content}
-                  </p>
-                  <div className="grid-meta">
-                    <span className="grid-author">by {post.author?.userName || 'Unknown'}</span>
-                    <span className="grid-date">{post.createdAt ? new Date(post.createdAt).toLocaleDateString() : ''}</span>
-                  </div>
-                  {post.tags && post.tags.length > 0 && (
-                    <div style={{ marginTop: 6, fontSize: '0.9em', color: '#1976d2' }}>
-                      Tags: {post.tags.join(', ')}
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
+           <div className="grid-container">
+  {loadingPosts && <p>Loading posts...</p>}
+  {errorPosts && <p style={{ color: 'red' }}>{errorPosts}</p>}
+  {posts
+    .filter(post =>
+      post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      post.content.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (post.tags && post.tags.join(', ').toLowerCase().includes(searchTerm.toLowerCase()))
+    )
+    .map((post) => (
+      <div className="grid-item" key={post._id} onClick={() => openPost(post)}>
+        <h3 className="grid-title">{post.title}</h3>
+        <p className="grid-content">
+          {post.content.length > 100 ? post.content.slice(0, 100) + '...' : post.content}
+        </p>
+        <div className="grid-meta">
+          <span className="grid-author">by {post.author?.userName || 'Unknown'}</span>
+          <span className="grid-date">{post.createdAt ? new Date(post.createdAt).toLocaleDateString() : ''}</span>
+        </div>
+        {post.tags && post.tags.length > 0 && (
+          <div style={{ marginTop: 6, fontSize: '0.9em', color: '#1976d2' }}>
+            Tags: {post.tags.join(', ')}
+          </div>
+        )}
+      </div>
+    ))}
+</div>
           </>
         )}
 
