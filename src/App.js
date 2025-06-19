@@ -494,7 +494,7 @@ const handleUpdatePost = async (e) => {
           </>
         )}
 
-        {page === 'me' && <Me user={user} />}
+        {page === 'me' && <Me user={user} onUpdateUser={setUser} />}
       </main>
 
       <nav className="bottom-nav">

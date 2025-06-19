@@ -228,13 +228,76 @@ transition: font-size 0.2s ease-in-out, text-shadow 0.5s ease-in-out; /* smooth 
   text-align: left;
 margin-top: 50px !important;
   margin: 0 auto;
-  height: 200px;
+  height: fit-content;
   font-size: larger;
   width: 350px;
   box-shadow: 0 0 30px var(--color-icon-less);
   border: 2px solid var(--color-icon-less);
 }
+.profile-info input {
+  background-color: rgba(255, 0, 0, 0.236);
+  padding: 5px;
+  margin: 8px;
+  border-radius: 30px;
+  text-align: center;
+  color: black;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.363);
+  opacity: 0;
+  transform: translateY(-10px);
+  /* Don't set animation here, set it with class */
+  transition: none;
+}
 
+.fade-in {
+  animation: fadeSlideIn 0.4s ease forwards;
+}
+
+.fade-out {
+  animation: fadeSlideOut 0.2s ease forwards;
+}
+
+@keyframes fadeSlideIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeSlideOut {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+}
+
+.profile-info .btn-primary{
+  background-color: rgba(255, 132, 0, 0.249);
+  padding: 10px;
+  border-radius: 30px;
+  box-shadow: 0 0 15px rgba(255, 132, 0, 0.249);
+  transition: background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out, padding 0.2s ease-in-out;
+}
+.profile-info .btn-primary:hover{
+  background-color: rgba(255, 132, 0, 0.549);
+  box-shadow: 0 0 30px rgba(255, 132, 0, 0.549);
+  padding: 15px;
+}
+.profile-info .btn-secondary{
+  background-color: rgba(255, 0, 0, 0.249);
+  padding: 10px;
+  border-radius: 30px;
+  box-shadow: 0 0 15px rgba(255, 0, 0, 0.249);
+  transition: background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out, padding 0.2s ease-in-out;
+}
+.profile-info .btn-secondary:hover{
+  background-color: rgba(255, 0, 0, 0.549);
+  box-shadow: 0 0 30px rgba(255, 0, 0, 0.549);
+  padding: 15px;
+}
 .profile-value{
   margin-left: 5px;
   color: rgb(139, 0, 0);
@@ -507,10 +570,14 @@ background: linear-gradient(90deg, #ffb357, #ffd200);
   text-align: center;
   padding: 10px;
   border-radius: 30px;
-  font-size: 1rem;
   font-weight: 700;
   color: rgba(0, 0, 0, 0.723);
 background-color: rgba(255, 255, 255, 0.525); 
 box-shadow: 0 0  15px rgba(0, 0, 0, 0.3) inset;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  transition: padding 0.2s ease-in-out,font-size 0.2s ease-in-out;
+}
+.search-input:hover {
+  font-size: 20px !important;
+
+  padding: 12px !important;
 }
