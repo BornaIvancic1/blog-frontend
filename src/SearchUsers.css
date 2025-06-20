@@ -1,0 +1,9 @@
+.search-users-input{
+                   max-width: 400px;
+                   padding: 10px;
+                   border-radius: 30px;
+                   background-color: #6fffd124;
+}
+.user-search-page{
+                   margin: 0 auto;
+}

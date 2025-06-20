@@ -3,6 +3,7 @@ import Login from './Login';
 import Me from './Me';
 import Register from './Register';
 import './App.css';
+import SearchUsers from './SearchUsers';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -253,6 +254,20 @@ const handleUpdatePost = async (e) => {
          <span className="material-icons" >add_circle</span> Create Post
         </button>
       )}
+      {page === 'home' && (
+        <button
+          className="search-users-btn"
+          style={{
+            position: 'absolute',
+            top: 80,
+            right: 40,
+            zIndex: 10
+          }}
+          onClick={() => setPage('searchUsers')}
+        >
+         <span className="material-icons" >person_search</span> Search Users
+        </button>
+      )}
 {page === 'home' && (
         <button
           className="talk-ai-btn"
@@ -495,6 +510,8 @@ const handleUpdatePost = async (e) => {
         )}
 
         {page === 'me' && <Me user={user} onUpdateUser={setUser} />}
+                {page === 'searchUsers' && <SearchUsers />}
+
       </main>
 
       <nav className="bottom-nav">

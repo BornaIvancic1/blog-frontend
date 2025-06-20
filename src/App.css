@@ -322,6 +322,31 @@ padding: 10px;
   box-shadow: 0 0 30px rgb(108, 189, 255);
 
 }
+.search-users-btn {
+  background: linear-gradient(90deg, #6fffd2, #38a3a5);
+  padding: 5px 14px;
+  border-radius: 30px;
+  box-shadow: 0 0 18px #6fffd2;
+  font-size: larger;
+  font-weight: 700;
+  color: #002b36;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: none;
+  cursor: pointer;
+  transition: 
+    padding 0.2s ease-in-out,
+    background 0.8s ease-in-out,
+    box-shadow 0.4s;
+}
+
+.search-users-btn:hover {
+  padding: 10px 20px;
+  background: linear-gradient(90deg, #38a3a5, #6fffd2);
+  box-shadow: 0 0 30px #38a3a5;
+}
+
 .talk-ai-btn {
   background: linear-gradient(90deg, #a084ee, #6f73d2); /* Purple to blue */
   padding-left: 10px;
