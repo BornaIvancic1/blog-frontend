@@ -6,27 +6,29 @@ function SearchUsers() {
   const [results, setResults] = useState([]);
   const [searching, setSearching] = useState(false);
   const [error, setError] = useState(null);
+  const [hasSearched, setHasSearched] = useState(false);
 
   const handleSearch = async e => {
-    e.preventDefault();
-    setSearching(true);
-    setError(null);
-    setResults([]);
-    try {
-      const token = localStorage.getItem('token');
-      const res = await fetch(`http://localhost:3000/api/users/search?q=${encodeURIComponent(query)}`, {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-        }
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.message || 'Search failed');
-      setResults(data.users || []);
-    } catch (err) {
-      setError(err.message);
-    }
-    setSearching(false);
-  };
+  e.preventDefault();
+  setHasSearched(true); // Mark that a search was done
+  setSearching(true);
+  setError(null);
+  setResults([]);
+  try {
+    const token = localStorage.getItem('token');
+    const res = await fetch(`http://localhost:3000/api/users/search?q=${encodeURIComponent(query)}`, {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      }
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.message || 'Search failed');
+    setResults(data.users || []);
+  } catch (err) {
+    setError(err.message);
+  }
+  setSearching(false);
+};
 
   return (
     <div className="user-search-page">
@@ -53,7 +55,8 @@ function SearchUsers() {
       </form>
       {error && <div style={{ color: 'red', marginBottom: 10 }}>{error}</div>}
       <div>
-        {results.length === 0 && !searching && query && <div>No users found.</div>}
+        {results.length === 0 && !searching && hasSearched && <div>No users found.</div>}
+
         {results.map(user => (
           <div key={user.id} className="user-result" style={{
             background: '#f6ffff',
