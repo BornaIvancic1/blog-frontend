@@ -4,6 +4,7 @@ import Me from './Me';
 import Register from './Register';
 import './App.css';
 import SearchUsers from './SearchUsers';
+import User from './User';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -17,6 +18,7 @@ function App() {
   const [errorPosts, setErrorPosts] = useState(null);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 const [showChat, setShowChat] = useState(false);
+  const [selectedUserId, setSelectedUserId] = useState(null);
 
   // For create modal
   const [newTitle, setNewTitle] = useState('');
@@ -510,7 +512,17 @@ const handleUpdatePost = async (e) => {
         )}
 
         {page === 'me' && <Me user={user} onUpdateUser={setUser} />}
-                {page === 'searchUsers' && <SearchUsers />}
+               {page === 'searchUsers' && selectedUserId === null && (
+  <SearchUsers onUserSelect={id => setSelectedUserId(id)} />
+)}
+{page === 'searchUsers' && selectedUserId !== null && (
+  <User
+    id={selectedUserId}
+    onBack={() => setSelectedUserId(null)}
+  />
+)}
+
+
 
       </main>
 
