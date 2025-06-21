@@ -253,7 +253,8 @@ const handleUpdatePost = async (e) => {
           }}
           onClick={() => setShowCreateModal(true)}
         >
-         <span className="material-icons" >add_circle</span> Create Post
+         <span className="material-icons" >add_circle</span> 
+         <span className="btn-text"> Create Post</span>
         </button>
       )}
       {page === 'home' && (
@@ -267,7 +268,8 @@ const handleUpdatePost = async (e) => {
           }}
           onClick={() => setPage('searchUsers')}
         >
-         <span className="material-icons" >person_search</span> Search Users
+         <span className="material-icons" >person_search</span> 
+          <span className="btn-text"> Search Users</span>
         </button>
       )}
 {page === 'home' && (
@@ -281,7 +283,8 @@ const handleUpdatePost = async (e) => {
           }}
           onClick={() => setShowChat(true)}
         >
-  <span className="material-icons">auto_awesome</span> Chat with AI
+  <span className="material-icons">auto_awesome</span> 
+  <span className="btn-text"> Chat with AI</span>
         </button>
       )}
       {showChat && (

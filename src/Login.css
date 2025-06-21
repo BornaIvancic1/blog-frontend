@@ -55,11 +55,24 @@
   align-items: center;
   gap: 10px;
 }
-
-.input-row {
-  display: flex;
-  gap: 10px;
+.login-input-row {
+    gap: 12px;
+  display: grid;
+grid-template-columns: repeat(2, 1fr); 
 }
+.input-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* Default: 4 columns (one row) */
+  gap: 12px;
+}
+
+/* On small screens, 2 columns (two rows) */
+@media (max-width: 1100px) {
+  .input-row {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
 
 .button-row {
   margin-top: 10px;

@@ -47,7 +47,7 @@ function Login({ onLogin, switchToRegister }) {
 
         {error && <p style={{ color: 'red' }}>{error}</p>}
 
-        <div className="input-row">
+        <div className="login-input-row">
           <input
             type="text"
             placeholder="Username"
