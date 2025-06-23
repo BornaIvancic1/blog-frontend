@@ -368,6 +368,28 @@ padding: 10px;
   background: linear-gradient(90deg, #6f73d2, #a084ee);
   box-shadow: 0 0 30px #6f73d2;
 }
+.daily-tip-btn {
+  background: linear-gradient(90deg, #fcb900, #ff7e5f); /* Gold to coral for a positive, energetic vibe */
+  padding-left: 12px;
+  padding-right: 12px;
+  padding-top: 6px;
+  padding-bottom: 6px;
+  border-radius: 30px;
+  box-shadow: 0 0 24px #fcb900;
+  font-size: larger;
+  font-weight: 700;
+  color: #2d2d2d;
+  transition: 0.2s padding ease-in-out, 0.8s background ease-in-out;
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  cursor: pointer;
+}
+.daily-tip-btn:hover {
+  padding: 12px 20px;
+  background: linear-gradient(90deg, #ff7e5f, #fcb900);
+  box-shadow: 0 0 32px #ff7e5f;
+}
 
 /* Modal Overlay */
 .modal-overlay {
@@ -613,4 +635,35 @@ box-shadow: 0 0  15px rgba(0, 0, 0, 0.3) inset;
   .grid-container{
     grid-template-columns: repeat(2, 1fr) !important;
   }
+}
+.tip-text {
+  position: relative;
+  padding: 30px;
+  background: linear-gradient(90deg, #fcb900, #ff7e5f);
+  font-size: 1.2rem;
+  border-radius: 30px;
+  box-shadow: 0 0 20px rgba(255, 127, 95, 0.624); /* fallback for browsers without pseudo support */
+  color: #000000;
+  margin: 20px auto;
+  max-width: 600px;
+  text-align: center;
+  line-height: 1.5;
+  font-weight: 500;
+  z-index: 1;
+  overflow: visible;
+}
+
+.tip-text::before {
+  content: "";
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  right: 10px;
+  bottom: 10px;
+  z-index: -1;
+  border-radius: 40px;
+  background: radial-gradient(circle at 50% 60%, #fcb900 0%, #ff7e5f 60%);
+  filter: blur(24px);
+  opacity: 0.7;
+  pointer-events: none;
 }

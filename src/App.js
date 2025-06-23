@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Login from './Login';
 import Me from './Me';
 import Register from './Register';
+import DailyTip from './DailyTip';
 import './App.css';
 import SearchUsers from './SearchUsers';
 import User from './User';
@@ -287,6 +288,8 @@ const handleUpdatePost = async (e) => {
   <span className="btn-text"> Chat with AI</span>
         </button>
       )}
+     <DailyTip />
+
       {showChat && (
   <div className="modal-overlay" onClick={() => setShowChat(false)}>
     <div className="modal-content ai" onClick={e => e.stopPropagation()}>
