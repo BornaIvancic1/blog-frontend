@@ -3,6 +3,7 @@ import Login from './Login';
 import Me from './Me';
 import Register from './Register';
 import DailyTip from './DailyTip';
+import DarkModeToggle from './DarkModeToggle';
 import './App.css';
 import SearchUsers from './SearchUsers';
 import User from './User';
@@ -287,8 +288,10 @@ const handleUpdatePost = async (e) => {
   <span className="material-icons">auto_awesome</span> 
   <span className="btn-text"> Chat with AI</span>
         </button>
+        
       )}
-     <DailyTip />
+     {page === 'home' && (
+      <DailyTip />)}
 
       {showChat && (
   <div className="modal-overlay" onClick={() => setShowChat(false)}>
@@ -548,6 +551,7 @@ const handleUpdatePost = async (e) => {
         >
           <span className="material-icons">logout</span> Logout
         </button>
+        <DarkModeToggle />
       </nav>
     </div>
   );

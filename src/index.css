@@ -21,7 +21,10 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-
+body.dark-mode {
+  background: radial-gradient(circle, rgb(34, 35, 72), var(--color-blogswift));
+  transition: background 1s ease-in-out;
+}
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
