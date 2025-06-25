@@ -15,7 +15,7 @@ function DarkModeToggle() {
       <span className="material-icons">
         {darkMode ? 'light_mode' : 'dark_mode'}
       </span>
-      {darkMode ? 'Light Mode' : 'Dark Mode'}
+      {darkMode ? ' Light Mode' : ' Dark Mode'}
     </button>
   );
 }

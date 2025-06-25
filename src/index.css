@@ -31,5 +31,5 @@ code {
 }
 .material-icons {
   font-size: 26px;
-  vertical-align:sub;
+  vertical-align:sub !important;
 }
