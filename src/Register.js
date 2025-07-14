@@ -38,6 +38,12 @@ function Register({ onRegister, switchToLogin }) {
     setLoading(false);
   };
 
+  // Handler for Google button
+  const handleGoogle = () => {
+    window.location.href = 'http://localhost:3000/api/auth/google';
+    // Change the URL above to your actual Google OAuth endpoint
+  };
+
   return (
     <div className="login-container">
       <form className="login-form" onSubmit={handleSubmit}>
@@ -89,6 +95,48 @@ function Register({ onRegister, switchToLogin }) {
           </button>
         </div>
       </form>
+
+      {/* Google Register Button */}
+      <div style={{ marginTop: 20, textAlign: 'center' }}>
+        <button
+          type="button"
+          className="google-btn"
+          onClick={handleGoogle}
+          
+        >
+          <img
+            src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Google_Favicon_2025.svg/250px-Google_Favicon_2025.svg.png"
+    alt="Google"
+    style={{ width: 40, height: 40, marginRight: 8 }}
+  />
+  Register with Google
+</button>
+<button
+  type="button"
+  className="microsoft-btn"
+  onClick={() => window.location.href = 'http://localhost:3000/api/auth/microsoft'}
+>
+  <img
+    src="https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg"
+    alt="Microsoft"
+    style={{ width: 40, height: 40, marginRight: 8 }}
+  />
+  Register with Microsoft
+</button>
+<button
+  type="button"
+  className="apple-btn"
+  onClick={() => window.location.href = 'http://localhost:3000/api/auth/apple'}
+>
+  <img
+    src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg"
+    alt="Apple"
+    style={{ width: 35, height: 40, marginRight: 8 }}
+  />
+  Register with Apple
+</button>
+
+      </div>
 
       <p style={{ marginTop: 10 }}>
         Already have an account?{' '}

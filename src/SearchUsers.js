@@ -79,16 +79,6 @@ function SearchUsers({ onUserSelect }) {
             <div
               key={userId || user.userName || idx}
               className="user-result"
-              style={{
-                background: '#f6ffff',
-                borderRadius: 12,
-                padding: 12,
-                marginBottom: 10,
-                display: 'flex',
-                alignItems: 'center',
-                boxShadow: '0 2px 10px #e0f7fa',
-                cursor: 'pointer'
-              }}
               onClick={() => onUserSelect(userId)}
               tabIndex={0}
               onKeyDown={e => {

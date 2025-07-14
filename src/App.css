@@ -736,3 +736,63 @@ box-shadow: 0 0  15px rgba(0, 0, 0, 0.3) inset;
   opacity: 0.7;
   pointer-events: none;
 }
+.google-btn {
+  background: #ffffff;
+  border: 1px solid #6642f4; /* purple border */
+  border-radius: 30px;
+  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  margin: 0 auto;
+  font-weight: 700;
+  box-shadow: 0 0 20px rgba(102, 66, 244, 0.3); /* subtle purple glow */
+  color: #6642f4; /* purple text */
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.google-btn:hover {
+  background: #6642f4; /* purple background on hover */
+  color: #fff;
+}
+
+
+.apple-btn {
+  background: #808080; /* Apple black */
+  border: 1px solid #525252; /* dark gray border */
+  border-radius: 30px;
+  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  margin: 0 auto;
+  font-weight: 700;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.4); /* subtle dark glow */
+  color: #ffffff; /* white text */
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.apple-btn:hover {
+  background: #4e4e4e;
+  color: #fff;
+}
+
+.microsoft-btn {
+  background: #f3f3f3; /* light gray */
+  border: 1px solid #0078D4; /* Microsoft blue */
+  border-radius: 30px;
+  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  margin: 20px auto;
+  font-weight: 700;
+  box-shadow: 0 0 20px rgba(0, 120, 212, 0.3); /* subtle blue glow */
+  color: #0078D4; /* Microsoft blue text */
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.microsoft-btn:hover {
+  background: #0078D4;
+  color: #fff;
+}

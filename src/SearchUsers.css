@@ -27,3 +27,36 @@
   padding-left: 2em;
   padding-right: 2em;
 }
+
+.user-result {
+  background: #f6ffff;
+  border-radius: 12px;
+  padding: 12px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 2px 10px #e0f7fa;
+  cursor: pointer;
+  transition: border-radius 0.3s ease-in-out, padding 0.3s ease-in-out, margin 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+.user-result:hover {
+  padding: 25px;
+  margin: 30px;
+    box-shadow: 0 10px 50px #e0f7fa;
+  border-radius: 40px;
+
+}
+.dark-mode .user-result:hover{
+    box-shadow: 0 10px 50px #ff000038;
+
+}
+.dark-mode .user-result {
+    background: #00000065;
+color: whitesmoke ;
+  box-shadow: 0 2px 10px #ff000038;
+
+}
+.dark-mode .search-users-input{
+                    background-color: #ff000022;    
+                    color: whitesmoke;
+}
