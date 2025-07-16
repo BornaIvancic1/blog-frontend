@@ -7,6 +7,8 @@ import DarkModeToggle from './DarkModeToggle';
 import './App.css';
 import SearchUsers from './SearchUsers';
 import User from './User';
+import { GoogleOAuthProvider } from '@react-oauth/google';
+
 
 function App() {
   const [user, setUser] = useState(null);
@@ -230,19 +232,27 @@ const handleUpdatePost = async (e) => {
 
   if (!user) {
     return showRegister ? (
+          <GoogleOAuthProvider clientId={process.env.GOOGLE_CLIENT_ID}>
+
       <Register
         onRegister={handleRegister}
         switchToLogin={() => setShowRegister(false)}
       />
+      </GoogleOAuthProvider>
     ) : (
+                <GoogleOAuthProvider clientId={process.env.GOOGLE_CLIENT_ID}>
+
       <Login
         onLogin={handleLogin}
         switchToRegister={() => setShowRegister(true)}
       />
+            </GoogleOAuthProvider>
+
     );
   }
 
   return (
+    <GoogleOAuthProvider clientId={process.env.GOOGLE_CLIENT_ID}>
     <div className="app">
       {page === 'home' && (
         <button
@@ -554,6 +564,8 @@ const handleUpdatePost = async (e) => {
         <DarkModeToggle />
       </nav>
     </div>
+        </GoogleOAuthProvider>
+
   );
 }
 
