@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './Login.css';
 import { GoogleLogin } from '@react-oauth/google';
+import SimpleOAuth2Login from 'react-simple-oauth2-login';
 
 function Login({ onLogin, switchToRegister }) {
   const [userName, setUsername] = useState('');
@@ -33,7 +34,6 @@ function Login({ onLogin, switchToRegister }) {
     setLoading(false);
   };
 
-  // Handle Google login success
   const handleGoogleSuccess = async (credentialResponse) => {
     setLoading(true);
     setError(null);
@@ -45,6 +45,7 @@ function Login({ onLogin, switchToRegister }) {
         body: JSON.stringify({ token: credentialResponse.credential }),
       });
       const data = await res.json();
+
       if (!res.ok) {
         setError(data.message || 'Google login failed');
       } else {
@@ -57,20 +58,44 @@ function Login({ onLogin, switchToRegister }) {
     setLoading(false);
   };
 
-  // Handle Google login error
   const handleGoogleError = () => {
     setError('Google sign-in was cancelled or failed.');
+  };
+
+  const handleGithubSuccess = async (response) => {
+    const code = response.code;
+    setLoading(true);
+    setError(null);
+
+    try {
+      const res = await fetch('http://localhost:3000/api/users/login/github', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ code }),
+      });
+      const data = await res.json();
+
+      if (!res.ok) {
+        setError(data.message || 'GitHub login failed');
+      } else {
+        localStorage.setItem('token', data.token);
+        onLogin(data.user.userName, data.user.firstname, data.user.lastname);
+      }
+    } catch (err) {
+      setError('GitHub login failed (network error)');
+    }
+    setLoading(false);
+  };
+
+  const handleGithubFailure = (response) => {
+    setError('GitHub login was cancelled or failed.');
   };
 
   return (
     <div className="login-container">
       <form className="login-form" onSubmit={handleSubmit}>
         <div className="image-container">
-          <img
-            src="/logo.png"
-            alt="Login visual"
-            className="login-image"
-          />
+          <img src="/logo.png" alt="Login visual" className="login-image" />
         </div>
 
         {error && <p style={{ color: 'red' }}>{error}</p>}
@@ -101,16 +126,12 @@ function Login({ onLogin, switchToRegister }) {
 
       {/* OAuth Buttons */}
       <div style={{ marginTop: 20, textAlign: 'center' }}>
-        <GoogleLogin
-          onSuccess={handleGoogleSuccess}
-          onError={handleGoogleError}
-          width="100%"
-        />
+        <GoogleLogin onSuccess={handleGoogleSuccess} onError={handleGoogleError} width="100%" />
 
         <button
           type="button"
           className="microsoft-btn"
-          onClick={() => window.location.href = 'http://localhost:3000/api/auth/microsoft'}
+          onClick={() => (window.location.href = 'http://localhost:3000/api/auth/microsoft')}
         >
           <img
             src="https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg"
@@ -119,10 +140,11 @@ function Login({ onLogin, switchToRegister }) {
           />
           Login with Microsoft
         </button>
+
         <button
           type="button"
           className="apple-btn"
-          onClick={() => window.location.href = 'http://localhost:3000/api/auth/apple'}
+          onClick={() => (window.location.href = 'http://localhost:3000/api/auth/apple')}
         >
           <img
             src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg"
@@ -131,14 +153,33 @@ function Login({ onLogin, switchToRegister }) {
           />
           Login with Apple
         </button>
+
+        <SimpleOAuth2Login
+          authorizationUrl="https://github.com/login/oauth/authorize"
+          clientId={process.env.REACT_APP_GITHUB_CLIENT_ID}
+          redirectUri="http://localhost:3001/oauth2/callback"
+          responseType="code"
+          scope="user:email"
+          className='github-btn'
+          buttonText={
+            <>
+              <img
+                src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
+                alt="GitHub"
+                style={{ borderRadius: 30, width: 24, height: 24, marginRight: 8, verticalAlign: 'middle' }}
+              />
+              Login with GitHub
+            </>
+          }
+          onSuccess={handleGithubSuccess}
+          onFailure={handleGithubFailure}
+          style={{ marginTop: 15 }}
+        />
       </div>
 
       <p style={{ marginTop: 10 }}>
         Don't have an account?{' '}
-        <button
-          onClick={switchToRegister}
-          className='registerLogin'
-        >
+        <button onClick={switchToRegister} className="registerLogin">
           Register here
         </button>
       </p>
