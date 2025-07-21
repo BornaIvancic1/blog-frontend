@@ -126,7 +126,11 @@ function Login({ onLogin, switchToRegister }) {
 
       {/* OAuth Buttons */}
       <div style={{ marginTop: 20, textAlign: 'center' }}>
-        <GoogleLogin onSuccess={handleGoogleSuccess} onError={handleGoogleError} width="100%" />
+        <GoogleLogin 
+          clientId={process.env.GOOGLE_CLIENT_ID}
+        onSuccess={handleGoogleSuccess}
+         onError={handleGoogleError}
+          width="100%" />
 
         <button
           type="button"
